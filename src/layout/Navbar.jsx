@@ -3,7 +3,6 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const navLinks = [
-  { href: "#about", label: "About" },
   { href: "#projects", label: "Projects" },
   { href: "#experience", label: "Experience" },
   { href: "#achievements", label: "Achievements" },
@@ -15,86 +14,89 @@ export const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 40);
     };
-
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 transition-all duration-500 ${
-        isScrolled ? "glass-strong py-3" : "bg-transparent py-5"
-      }  z-50`}
+      className={`fixed top-0 left-0 right-0 transition-all duration-300 ${
+        isScrolled ? "glass-strong py-4 shadow-sm" : "bg-transparent py-6"
+      } z-50`}
     >
       <nav className="container mx-auto px-6 flex items-center justify-between">
+        {/* Mockup Cursive / Serif Style Logo */}
         <a
           href="#"
-          className="text-xl font-bold tracking-tight hover:text-primary"
+          className="text-2xl font-serif italic text-slate-900 tracking-tight hover:opacity-80 transition-opacity"
         >
-          AM<span className="text-primary">.</span>
+          Ayesha Mahek
         </a>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-1">
-          <div className="glass rounded-full px-2 py-1 flex items-center gap-1">
-            {navLinks.map((link, index) => (
-              <a
-                href={link.href}
-                key={index}
-                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground rounded-full hover:bg-surface"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
+        {/* Desktop Nav Links */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((link, index) => (
+            <a
+              href={link.href}
+              key={index}
+              className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
 
-        {/* CTA Button */}
+        {/* Desktop CTA Pill Button */}
         <div className="hidden md:block">
-
-          {/* <Button size="sm">Contact Me</Button> */}
           <Button
-  size="sm"
-  onClick={() =>
-    document.getElementById("contact")?.scrollIntoView({
-      behavior: "smooth",
-    })
-  }
->
-  Contact Me
-</Button>
-          
+            size="sm"
+            onClick={() =>
+              document.getElementById("contact")?.scrollIntoView({
+                behavior: "smooth",
+              })
+            }
+            className="rounded-full bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-[0_4px_14px_rgba(15,23,42,0.1)] border-none"
+          >
+            Get In Touch
+          </Button>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden p-2 text-foreground cursor-pointer"
+          className="md:hidden p-2 text-slate-700 cursor-pointer"
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden glass-strong animate-fade-in">
+        <div className="md:hidden bg-white/95 backdrop-blur-md shadow-md animate-fade-in border-b border-slate-100">
           <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
             {navLinks.map((link, index) => (
               <a
                 href={link.href}
                 key={index}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-lg text-muted-foreground hover:text-foreground py-2"
+                className="text-base font-medium text-slate-600 hover:text-slate-950 py-1"
               >
                 {link.label}
               </a>
             ))}
 
-            <Button onClick={() => setIsMobileMenuOpen(false)}>
-              Contact Me
+            <Button 
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                document.getElementById("contact")?.scrollIntoView({
+                  behavior: "smooth",
+                });
+              }}
+              className="rounded-full bg-slate-900 text-white hover:bg-slate-800 transition-all border-none"
+            >
+              Get In Touch
             </Button>
           </div>
         </div>
