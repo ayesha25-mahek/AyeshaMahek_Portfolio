@@ -143,24 +143,25 @@
   /* Scroll Reveal Base Classes */
   .scroll-reveal {
     opacity: 0;
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, opacity, filter;
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
   }
 
   .reveal-up {
-    transform: translateY(20px);
+    transform: translateY(32px);
   }
   .reveal-down {
-    transform: translateY(-20px);
+    transform: translateY(-32px);
   }
   .reveal-left {
-    transform: translateX(-20px);
+    transform: translateX(-24px);
   }
   .reveal-right {
-    transform: translateX(20px);
+    transform: translateX(24px);
   }
   .reveal-scale {
-    transform: scale(0.98);
+    transform: scale(0.97);
   }
   .reveal-blur {
     filter: blur(4px);
@@ -197,12 +198,32 @@
     }
   }
 
+  /* Skills ticker: row 1 moves rightward (starts shifted left, ends at 0 = effectively moves right) */
+  @keyframes marquee-right {
+    0%   { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+
+  /* Skills ticker: row 2 moves leftward (classic) */
+  @keyframes marquee-left {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
   .animate-float {
     animation: float 4s ease-in-out infinite;
   }
 
   .animate-marquee {
     animation: marquee 35s linear infinite;
+  }
+
+  .animate-marquee-right {
+    animation: marquee-right 40s linear infinite;
+  }
+
+  .animate-marquee-left {
+    animation: marquee-left 40s linear infinite;
   }
 
   .animate-spin-slow {

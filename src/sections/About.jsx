@@ -5,7 +5,8 @@ import {
   Briefcase, 
   Award, 
   Mail,
-  GraduationCap
+  GraduationCap,
+  Code2
 } from "lucide-react";
 
 export const About = () => {
@@ -26,15 +27,23 @@ export const About = () => {
     {
       id: "education",
       label: "Education",
-      angle: 60,
+      angle: 51,
       icon: GraduationCap,
       targetScroll: () => document.getElementById("education")?.scrollIntoView({ behavior: "smooth" }),
       description: "Academic qualification registry and training records."
     },
     {
+      id: "skills",
+      label: "Skills",
+      angle: 103,
+      icon: Code2,
+      targetScroll: () => document.getElementById("skills")?.scrollIntoView({ behavior: "smooth" }),
+      description: "Full technology stack — languages, frameworks, AI tools, and DevOps."
+    },
+    {
       id: "projects",
       label: "Projects",
-      angle: 120,
+      angle: 154,
       icon: Cpu,
       targetScroll: () => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }),
       description: "Index of engineering deliverables, applications, and source repositories."
@@ -42,7 +51,7 @@ export const About = () => {
     {
       id: "experience",
       label: "Experience",
-      angle: 180,
+      angle: 206,
       icon: Briefcase,
       targetScroll: () => document.getElementById("experience")?.scrollIntoView({ behavior: "smooth" }),
       description: "Chronology of internships, industry roles, and teaching services."
@@ -50,7 +59,7 @@ export const About = () => {
     {
       id: "achievements",
       label: "Achievements",
-      angle: 240,
+      angle: 257,
       icon: Award,
       targetScroll: () => document.getElementById("achievements")?.scrollIntoView({ behavior: "smooth" }),
       description: "Registry of hackathons, innovation prizes, and event selections."
@@ -58,7 +67,7 @@ export const About = () => {
     {
       id: "contact",
       label: "Contact",
-      angle: 300,
+      angle: 309,
       icon: Mail,
       targetScroll: () => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }),
       description: "Secure uplink terminal to initiate direct communication packets."

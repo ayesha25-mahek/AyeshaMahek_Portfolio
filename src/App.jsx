@@ -11,6 +11,7 @@ import { Experience } from "./sections/Experience";
 import { Achievements } from "./sections/Achievements";
 import { Contact } from "./sections/Contact";
 import { OpeningCinematic } from "./components/OpeningCinematic";
+import { Skills } from "./sections/Skills";
 
 // Minimalist particle constellation background component
 function ParticleBackground() {
@@ -148,7 +149,7 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY;
-      const sectionIds = ["education", "projects", "experience", "achievements", "contact"];
+      const sectionIds = ["education", "skills", "projects", "experience", "achievements", "contact"];
       let currentActive = "home";
 
       if (scrollPos < 200) {
@@ -172,25 +173,41 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Intersection Observer for animations
+  // Direction-aware scroll animation
   useEffect(() => {
     if (cinematicLoader) return;
 
+    let lastScrollY = window.scrollY;
+
     const observerOptions = {
       root: null,
-      rootMargin: "-10% 0px -10% 0px",
-      threshold: 0.05,
+      rootMargin: "-8% 0px -8% 0px",
+      threshold: 0.04,
     };
 
     const observer = new IntersectionObserver((entries) => {
+      const scrollingDown = window.scrollY >= lastScrollY;
+
       entries.forEach((entry) => {
+        const el = entry.target;
         if (entry.isIntersecting) {
-          entry.target.classList.add("revealed");
+          // Remove old direction classes then reveal
+          el.classList.remove("reveal-up", "reveal-down");
+          el.classList.add(scrollingDown ? "reveal-up" : "reveal-down");
+          // Force a reflow so the new transform is applied before we add revealed
+          void el.offsetHeight;
+          el.classList.add("revealed");
         } else {
-          entry.target.classList.remove("revealed");
+          el.classList.remove("revealed");
+          // Prime next entry direction opposite to current exit
+          el.classList.remove("reveal-up", "reveal-down");
+          el.classList.add(scrollingDown ? "reveal-down" : "reveal-up");
         }
       });
     }, observerOptions);
+
+    const onScroll = () => { lastScrollY = window.scrollY; };
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     const timer = setTimeout(() => {
       const revealElements = document.querySelectorAll(".scroll-reveal");
@@ -199,6 +216,7 @@ function App() {
 
     return () => {
       clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
       const revealElements = document.querySelectorAll(".scroll-reveal");
       revealElements.forEach((el) => observer.unobserve(el));
     };
@@ -207,6 +225,7 @@ function App() {
   const navLinks = [
     { id: "home", label: "Home", target: () => window.scrollTo({ top: 0, behavior: "smooth" }) },
     { id: "education", label: "Education", target: () => document.getElementById("education")?.scrollIntoView({ behavior: "smooth" }) },
+    { id: "skills",    label: "Skills",    target: () => document.getElementById("skills")?.scrollIntoView({ behavior: "smooth" }) },
     { id: "projects", label: "Projects", target: () => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }) },
     { id: "experience", label: "Experience", target: () => document.getElementById("experience")?.scrollIntoView({ behavior: "smooth" }) },
     { id: "achievements", label: "Achievements", target: () => document.getElementById("achievements")?.scrollIntoView({ behavior: "smooth" }) },
@@ -252,6 +271,7 @@ function App() {
           <div className="space-y-20 lg:space-y-28">
             <Hero />
             <About />
+            <Skills />
             <Education />
             <Projects />
             <Experience />
